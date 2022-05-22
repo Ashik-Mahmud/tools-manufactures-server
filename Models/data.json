@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Henry Morin",
+    "designation": "Senior Technician",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3lb9w0o4zMMjlynPVnGHFbuzjjPMUbql6CvyeSeDOUt8UIBTVyYybBfSpMgfmfeywvHo&usqp=CAU"
+  },
+  {
+    "name": "David Copler",
+    "designation": "Senior Operator",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq8RLDBtnUXeREKH-LkeaJ4pl16Kx89vO8pVE5SLuasnS8MtbQSvHa6HFK43Kaf2SaaVc&usqp=CAU"
+  },
+  {
+    "name": "Gray Simon",
+    "designation": "Senior Designer",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1LBelZyWa8Xq_eK63AywofqMWRL86WK6d7-pVbpds71Vj671COXGeEGYlfJBinrI6HQ0&usqp=CAU"
+  },
+  {
+    "name": "Nitro Micho",
+    "designation": "Asst. Technician",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3jo_f9CO2hXbj2_Hbc_fvYkk0ii-M1h6xOxlGMO3qi3osvgt9CLxrqnsYYLD5KxaVU1s&usqp=CAU"
+  }
+]

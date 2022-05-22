@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const app = express();
 const loginRouter = require("./Routes/login.route.js")
-
+const teamRouter = require("./Routes/team.route.js")
 // middleware 
 app.use(cors());
 app.use(express.json())
@@ -15,6 +15,9 @@ app.use(express.json())
 
 /* login  */
 app.use("/login", loginRouter)
+
+/* Getting Team Members */
+app.use("/teams", teamRouter)
 
 
  /* testing api  */
