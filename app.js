@@ -9,6 +9,7 @@ const loginRouter = require("./Routes/login.route.js")
 const teamRouter = require("./Routes/team.route.js")
 const userRouter = require("./Routes/users.route.js");
 const adminRouter = require("./Routes/admin.route.js")
+const reviewRouter = require("./Routes/review.route.js")
 // middleware 
 app.use(cors());
 app.use(express.json())
@@ -26,6 +27,9 @@ app.use("/users", userRouter)
 
 /* check admin role*/
 app.use("/admin", adminRouter)
+
+/* review routes */
+app.use("/review", reviewRouter)
 
  /* testing api  */
 app.get('/', (req, res) =>{
