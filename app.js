@@ -29,7 +29,7 @@ app.use("/users", userRouter)
 app.use("/admin", adminRouter)
 
 /* review routes */
-app.use("/review", reviewRouter)
+app.use("/reviews", reviewRouter)
 
  /* testing api  */
 app.get('/', (req, res) =>{

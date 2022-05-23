@@ -16,4 +16,12 @@ const addReviews = async (req,res) =>{
     }
 }
 
-module.exports = {addReviews}
+
+const getReviews = async (req, res) => {
+    await client.connect();
+    const result = await reviewCollection.find({}).sort({reviewDate: -1}).toArray();
+    res.send({success: true, result})
+}
+
+
+module.exports = {addReviews, getReviews}
