@@ -8,6 +8,7 @@ const app = express();
 const loginRouter = require("./Routes/login.route.js")
 const teamRouter = require("./Routes/team.route.js")
 const userRouter = require("./Routes/users.route.js");
+const adminRouter = require("./Routes/admin.route.js")
 // middleware 
 app.use(cors());
 app.use(express.json())
@@ -22,6 +23,9 @@ app.use("/teams", teamRouter)
 
 /* users  */
 app.use("/users", userRouter)
+
+/* check admin role*/
+app.use("/admin", adminRouter)
 
  /* testing api  */
 app.get('/', (req, res) =>{
