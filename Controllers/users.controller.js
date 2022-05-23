@@ -36,4 +36,38 @@ const getProfileDetails = async (req, res) => {
     }
 }
 
-module.exports = {updateProfile, getProfileDetails}
+
+const getAllUsers = async (req, res) => {
+    await client.connect();
+    const decodedID = req.decoded.uid;
+    const uid = req.query.uid;
+    if(decodedID === uid){
+        const result = await userCollection.find({}).toArray();
+        res.send({success:true, result})
+    }else{
+        res.status(403).send({success:false, message: "Forbidden request"})
+    }
+}
+
+
+const patchUserRole = async (req, res) => {
+    await client.connect();
+    const uid = req.query.uid;
+    const decodedID = req.decoded.uid;
+    const data = req.body;
+    const query = {uid: uid}
+    const updateDoc = {
+        $set: data,
+    }
+    if(decodedID === uid){
+        const result = await userCollection.updateOne(query, updateDoc);
+        if(result.acknowledged){
+            res.send({success: true, message: "Made admin successfully done."})
+        }
+    }else{
+        res.status(403).send({success:false, message: "Forbidden request"})
+    }    
+}
+
+
+module.exports = {updateProfile, getProfileDetails, getAllUsers, patchUserRole}
