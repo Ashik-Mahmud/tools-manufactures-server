@@ -48,4 +48,28 @@ const deleteProductData = async (req, res) => {
     }
 }
 
-module.exports = {saveProductData, getProductData, deleteProductData}
+const getPurchaseProductData = async (req, res) => {
+   await client.connect();
+
+    const decodedID = req.decoded.uid;
+    const userId = req.query.uid;
+    const purchaseId = req.query.purchaseId;
+    
+    if(decodedID===userId){
+        const query ={_id: ObjectId(purchaseId)}
+        const resultOne = await productCollection.findOne(query);
+        res.send({success: true, result: resultOne})
+    }else{
+        res.status(403).send({success: false, message:"Forbidden request"})
+    }
+}
+
+const getAllProducts = async (req, res) => {
+    await client.connect()
+    const result = await productCollection.find({}).toArray();
+    res.send({success: true, result: result})
+}
+
+
+
+module.exports = {saveProductData, getProductData, deleteProductData, getPurchaseProductData, getAllProducts}
