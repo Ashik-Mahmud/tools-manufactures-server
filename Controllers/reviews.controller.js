@@ -19,7 +19,7 @@ const addReviews = async (req,res) =>{
 
 const getReviews = async (req, res) => {
     await client.connect();
-    const result = await reviewCollection.find({}).sort({reviewDate: -1}).toArray();
+    const result = await reviewCollection.find({}).sort({_id: -1}).toArray();
     res.send({success: true, result})
 }
 

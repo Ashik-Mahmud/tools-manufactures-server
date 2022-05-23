@@ -10,6 +10,7 @@ const teamRouter = require("./Routes/team.route.js")
 const userRouter = require("./Routes/users.route.js");
 const adminRouter = require("./Routes/admin.route.js")
 const reviewRouter = require("./Routes/review.route.js")
+const productsRouter = require("./Routes/product.route.js");
 // middleware 
 app.use(cors());
 app.use(express.json())
@@ -30,6 +31,10 @@ app.use("/admin", adminRouter)
 
 /* review routes */
 app.use("/reviews", reviewRouter)
+
+
+/* products route */
+app.use('/products', productsRouter)
 
  /* testing api  */
 app.get('/', (req, res) =>{
