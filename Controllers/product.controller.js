@@ -16,6 +16,15 @@ const saveProductData = async (req,res) =>{
    }
 }
 
+const getProductData = async (req, res) => {
+    const uid = req.query.uid;
+    const decodedID = req.decoded.uid;
+    if(decodedID === uid){
+        const result = await productCollection.find({}).toArray();
+        res.send({success: true, result})
+    }else{
+        res.status(403).send({success: false, message:"forbidden request"})
+    }
+}
 
-
-module.exports = {saveProductData}
+module.exports = {saveProductData, getProductData}
