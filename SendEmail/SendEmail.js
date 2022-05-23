@@ -9,23 +9,47 @@ const options = {
   }
 const client = nodemailer.createTransport(sgTransport(options));
 const SendEmail = async(data) => {
-    const { email, date, time, treatment } = data;
+    const { productInfo, author, createdAt } = data;
+       
     var emailFormat = {
         from: process.env.EMAIL_ADDRESS,
-        to: email, 
-        subject: `Your appointment is confirmed ${date} of ${time} for your ${treatment}`,
-        text: `Your appointment is confirmed ${date} of ${time} for your ${treatment}`,
+        to: author?.email, 
+        subject: `Your order successfully placed name of your ${author?.name}`,
+        text: `Your order successfully placed name of your ${author?.name}`,
         html: `
-        <div>
-          <p>Hello ${email},</p>
-          <p>Your appointment is confirmed already ${date} of ${time} for your ${treatment} </p>
-          <p>Regards - <a href="https://doctors-portal-cf910.web.app/" target="_blank" >Doctors Para</a></p>
+        <div style="padding:3rem;">
+          <p>Hello ${author?.name},</p>
+          <p>you order request we got now you should pay for confirmed your order. Your order summery. </p>
+          <table style="padding:2rem; width:100%;border-collapse:collapse;">
+          
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 6px">Product Name</td>
+                <th style="border: 1px solid #ccc; padding: 6px">${productInfo?.productName}</th>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 6px">Price</td>
+                <th style="border: 1px solid #ccc; padding: 6px">${productInfo?.price}</th>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 6px">Order Quantity</td>
+                <th style="border: 1px solid #ccc; padding: 6px">${productInfo?.orderQty}</th>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 6px">Status</td>
+                <th style="border: 1px solid #ccc; padding: 6px"><span style="color: tomato">Unpaid</span></th>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 6px">Placed Date</td>
+                <th style="border: 1px solid #ccc; padding: 6px">${createdAt}</th>
+            </tr>
+          </table>
+          <p>Regards - <a href="https://tools-manufactures.web.app" target="_blank" >Tools House</a></p>
         </div>
         `,
       };
       client.sendMail(emailFormat, function(err, info){
-        if (err ){
-          console.log(error);
+        if (err){
+          console.log(err);
         }
         else {
           console.log('Message sent: ', info.response);

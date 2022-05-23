@@ -11,6 +11,7 @@ const userRouter = require("./Routes/users.route.js");
 const adminRouter = require("./Routes/admin.route.js")
 const reviewRouter = require("./Routes/review.route.js")
 const productsRouter = require("./Routes/product.route.js");
+const orderRouter = require("./Routes/order.route.js")
 // middleware 
 app.use(cors());
 app.use(express.json())
@@ -35,6 +36,9 @@ app.use("/reviews", reviewRouter)
 
 /* products route */
 app.use('/products', productsRouter)
+
+/* Orders Route */
+app.use('/orders', orderRouter)
 
  /* testing api  */
 app.get('/', (req, res) =>{
