@@ -1,9 +1,11 @@
 const client = require("../Connection/connection.js");
-const userCollection = client.db('doctors-portal').collection("users");
+const userCollection = client.db('tools-manufactures').collection("users");
 const VerifyAdmin = async(req, res, next) => {
   await client.connect();
   const query = req.decoded.uid;
+    
   const userAccount = await userCollection.findOne({uid: query})
+  
   const isAdmin = userAccount?.role === 'admin';
   if(isAdmin){
       next();

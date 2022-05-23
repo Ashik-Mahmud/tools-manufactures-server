@@ -53,13 +53,14 @@ const getAllUsers = async (req, res) => {
 const patchUserRole = async (req, res) => {
     await client.connect();
     const uid = req.query.uid;
+    const currentUserUid = req.query.currentUserId;
     const decodedID = req.decoded.uid;
     const data = req.body;
     const query = {uid: uid}
     const updateDoc = {
         $set: data,
-    }
-    if(decodedID === uid){
+    }     
+    if(decodedID === currentUserUid){
         const result = await userCollection.updateOne(query, updateDoc);
         if(result.acknowledged){
             res.send({success: true, message: "Made admin successfully done."})
@@ -70,4 +71,21 @@ const patchUserRole = async (req, res) => {
 }
 
 
-module.exports = {updateProfile, getProfileDetails, getAllUsers, patchUserRole}
+const deleteUser = async (req, res) => {
+    const uid = req.query.uid;
+    const dltId = req.query.deleteId;
+    const decodedID = req.decoded.uid;
+    if(decodedID === uid){
+        const query = {_id: ObjectId(dltId)}
+        const result = await userCollection.deleteOne(query);
+        if(result.acknowledged){
+            res.send({success:true, message:"User deleted successfully"})
+        }
+    }else{
+        res.status(403).send({success:false, message: "Forbidden request"})
+    }
+        
+}
+
+
+module.exports = {updateProfile, getProfileDetails, getAllUsers, patchUserRole, deleteUser}
