@@ -9,8 +9,9 @@ const saveOrderData = async(req, res) => {
     const decodedID = req.decoded.uid;
     if(decodedID === userId){
         const orderData = req.body;
-        const productName = req.body.productName;
-        const isHas = await orderCollection.findOne({productName: productName})
+        const productName = req.body?.productInfo?.productName;
+                      
+        const isHas = await orderCollection.findOne({"productInfo.productName": productName})
         if(isHas){
             return res.send({success: false, message: 'Already ordered this product.'})
         }
@@ -39,4 +40,19 @@ const getOrderData = async(req, res) => {
   
 }
 
-module.exports = {saveOrderData,getOrderData}
+const deleteOrderData = async(req, res) => {
+    const userId = req.query.uid;
+    const deleteId = req.query.deleteId;
+    const decodedID = req.decoded.uid;
+    if(userId === decodedID){
+        const query = {_id: ObjectId(deleteId)}
+        const result = await orderCollection.deleteOne(query)
+        if(result.acknowledged){
+            res.send({success: true, message:'Order canceled successfully done.'})
+        }
+    }else{
+        res.status(403).send({success: false, message: 'forbidden request'})
+    }
+}
+
+module.exports = {saveOrderData,getOrderData, deleteOrderData}
