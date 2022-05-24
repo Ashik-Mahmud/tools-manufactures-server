@@ -17,6 +17,34 @@ const saveProductData = async (req,res) =>{
    }
 }
 
+const patchProductData = async (req, res) => {
+   await client.connect();
+    const userId = req.query.uid;
+    const decodedID = req.decoded.uid;   
+    const data = req.body;
+    const productId = req.query.productId;
+    if(userId === decodedID){
+        const currentProduct = await productCollection.findOne({_id: ObjectId(productId)});
+        const nowAvailableQty = Number(currentProduct?.availableQty);
+        const restAvailableQty = nowAvailableQty - Number(data?.orderQty);
+        const updateDoc = {
+            $set: {
+                availableQty: restAvailableQty
+            }
+        }
+        const result = await productCollection.updateOne({_id: ObjectId(productId)}, updateDoc);
+        if(result.acknowledged){
+            res.send({success: true, message: 'Available Quantity decrease.'})
+        }
+    }else{
+        res.status(403).send({success: false, message:"forbidden request"})
+    }
+  
+}
+
+
+
+
 const getProductData = async (req, res) => {
    await client.connect();
 
@@ -72,4 +100,4 @@ const getAllProducts = async (req, res) => {
 
 
 
-module.exports = {saveProductData, getProductData, deleteProductData, getPurchaseProductData, getAllProducts}
+module.exports = {saveProductData, getProductData, deleteProductData, getPurchaseProductData, getAllProducts,patchProductData}
