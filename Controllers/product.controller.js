@@ -74,9 +74,12 @@ const getProductData = async (req, res) => {
 
     const uid = req.query.uid;
     const decodedID = req.decoded.uid;
+    const page = Number(req.query.page);
+    const limit = Number(req.query.limit);
     if(decodedID === uid){
-        const result = await productCollection.find({}).toArray();
-        res.send({success: true, result})
+        const result = await productCollection.find({}).skip(page * limit).limit(limit).toArray();
+        const count = await productCollection.estimatedDocumentCount();
+        res.send({success: true, result, count})
     }else{
         res.status(403).send({success: false, message:"forbidden request"})
     }
