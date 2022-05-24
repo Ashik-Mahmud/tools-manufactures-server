@@ -12,6 +12,7 @@ const adminRouter = require("./Routes/admin.route.js")
 const reviewRouter = require("./Routes/review.route.js")
 const productsRouter = require("./Routes/product.route.js");
 const orderRouter = require("./Routes/order.route.js")
+const paymentRouter = require("./Routes/payment.route.js")
 // middleware 
 app.use(cors());
 app.use(express.json())
@@ -39,6 +40,11 @@ app.use('/products', productsRouter)
 
 /* Orders Route */
 app.use('/orders', orderRouter)
+
+/* payment route */
+app.use('/payment', paymentRouter)
+
+
 
  /* testing api  */
 app.get('/', (req, res) =>{
