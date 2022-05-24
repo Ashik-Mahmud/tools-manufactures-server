@@ -8,7 +8,9 @@ const options = {
     }
   }
 const client = nodemailer.createTransport(sgTransport(options));
-const SendEmail = async(data) => {
+
+
+const sendOrderEmail = async(data) => {
     const { productInfo, author, createdAt } = data;
        
     var emailFormat = {
@@ -59,4 +61,32 @@ const SendEmail = async(data) => {
 
 }
 
-module.exports = SendEmail;
+/*  Send Email for Payment Successfully done */
+const paymentConfirmationEmail = async(data) =>{
+    const { createdAt, transactionId, author,productInfo } = data;
+    var emailFormat = {
+        from: process.env.EMAIL_ADDRESS,
+        to: author?.email, 
+        subject: `Your Payment Confirmed for ${productInfo?.name} product at ${createdAt}  `,
+        text: `Your Payment Confirmed for ${productInfo?.name} product  at ${createdAt}  `,
+        html: `
+        <div style="padding:3rem;">
+          <strong>Hello ${author?.name},</strong>
+          <h2>Congratulation!! Your payment confirmed This is your transactionID <strong>${transactionId}</strong></h2>
+          <p>Your payment confirmed now you can't not refund of my application if you wanna refund you should direct call <strong>01757875757787</strong></p>
+          
+          <p>Regards - <a href="https://tools-manufactures.web.app" target="_blank" >Tools House</a></p>
+        </div>
+        `,
+      };
+      client.sendMail(emailFormat, function(err, info){
+        if (err){
+          console.log(err);
+        }
+        else {
+          console.log('Message sent: ', info.response);
+        }
+    });
+}
+
+module.exports = {sendOrderEmail, paymentConfirmationEmail};
