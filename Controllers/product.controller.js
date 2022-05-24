@@ -123,5 +123,15 @@ const getAllProducts = async (req, res) => {
 }
 
 
+/* get searched value for users */
+const getSearchedProduct = async (req, res) => {
+    await client.connect()
+    const searchText = req.query.q.toLowerCase();
+    const result = await productCollection.find({}).toArray();
+    const searchedResult = result.filter(product => product.productName.toLowerCase().includes(searchText));
+    res.send({success: true, searchedResult: searchedResult})    
+}
 
-module.exports = {saveProductData, getProductData, deleteProductData, getPurchaseProductData, getAllProducts,patchProductData,patchUpdateStock}
+
+
+module.exports = {saveProductData, getProductData, deleteProductData, getPurchaseProductData, getAllProducts,patchProductData,patchUpdateStock, getSearchedProduct}

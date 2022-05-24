@@ -80,4 +80,19 @@ const patchOrderData = async (req, res) => {
     }
 }
 
-module.exports = {saveOrderData,getOrderData, deleteOrderData, patchOrderData}
+
+const getAllOrderData = async (req, res) => {
+    const userId = req.query.uid;
+    const decodedID = req.decoded.uid;
+    if(userId === decodedID){
+        const result = await orderCollection.find({}).toArray();
+        res.send({success: true, result})
+    }else{
+        res.status(403).send({success: false, message: 'forbidden request'})
+    }
+}
+
+
+
+
+module.exports = {saveOrderData,getOrderData, deleteOrderData, patchOrderData, getAllOrderData}

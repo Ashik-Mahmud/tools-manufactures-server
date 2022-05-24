@@ -1,5 +1,5 @@
 
-const { saveProductData, getProductData, deleteProductData, getPurchaseProductData , getAllProducts, patchProductData, patchUpdateStock, } = require('../Controllers/product.controller');
+const { saveProductData, getProductData, deleteProductData, getPurchaseProductData , getAllProducts, patchProductData, patchUpdateStock,getSearchedProduct } = require('../Controllers/product.controller');
 const VerifyAdmin = require('../VerifyAdmin/VerifyAdmin');
 const VerifyToken = require('../VerifyToken/VerifyToken');
 
@@ -11,4 +11,5 @@ router.get('/', VerifyToken, VerifyAdmin, getProductData);
 router.get('/one', VerifyToken, getPurchaseProductData);
 router.get('/all', getAllProducts);
 router.delete('/', VerifyToken, VerifyAdmin, deleteProductData);
+router.get("/search", getSearchedProduct)
 module.exports = router;
