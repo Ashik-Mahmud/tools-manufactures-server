@@ -42,6 +42,30 @@ const patchProductData = async (req, res) => {
   
 }
 
+const patchUpdateStock = async(req, res, next) => {
+    const userId = req.query.uid;
+    const decodedID = req.decoded.uid;
+    const data = req.body;
+  
+    if(userId === decodedID){
+        const query = {_id: ObjectId(data?.productId)}
+        const findProduct = await productCollection.findOne(query);
+        const nowAvailableQty = Number(findProduct.availableQty);
+        const updateStock = nowAvailableQty + Number(data?.stock)
+        const updateDoc = {
+            $set:{
+                availableQty: updateStock
+            }
+        }
+        const result = await productCollection.updateOne(query, updateDoc)
+        if(result.acknowledged){
+            res.send({success: true, message:'Update stock successfully done.'})
+        }
+    }else{
+        res.status(403).send({success: false, message:"forbidden request"})
+    }
+}
+
 
 
 
@@ -100,4 +124,4 @@ const getAllProducts = async (req, res) => {
 
 
 
-module.exports = {saveProductData, getProductData, deleteProductData, getPurchaseProductData, getAllProducts,patchProductData}
+module.exports = {saveProductData, getProductData, deleteProductData, getPurchaseProductData, getAllProducts,patchProductData,patchUpdateStock}
