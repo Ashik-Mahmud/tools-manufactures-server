@@ -59,8 +59,10 @@ const patchOrderData = async (req, res) => {
     await client.connect();
     const userId = req.query.uid;
     const decodedID = req.decoded.uid;
+    const orderId = req.query.orderId;
+    
     if(userId === decodedID){
-        const query = {"author.uid": userId};
+        const query = {_id: ObjectId(orderId)};
         const data = req.body;
         const updateDoc = {
             $set:{
