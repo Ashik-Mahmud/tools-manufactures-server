@@ -94,5 +94,27 @@ const getAllOrderData = async (req, res) => {
 
 
 
+const patchOrderShipped = async (req, res) =>{
+    const userId = req.query.uid;
+    const decodedID = req.decoded.uid;
+    const data = req.body;
+    const deliveredId = req.query.shippedId;
+    if(userId === decodedID){
+        const query = {_id: ObjectId(deliveredId)}
+        const updateDoc = {
+            $set: data
+        }
+        const result = await orderCollection.updateOne(query, updateDoc);
+        if(result.acknowledged){
+            res.send({success: true, message: "Shipped Product."})
+        }
+    }else{
+        res.status(403).send({success: false, message: 'forbidden request'})
+    }
+}
 
-module.exports = {saveOrderData,getOrderData, deleteOrderData, patchOrderData, getAllOrderData}
+
+
+
+
+module.exports = {saveOrderData,getOrderData, deleteOrderData, patchOrderData, getAllOrderData, patchOrderShipped}
