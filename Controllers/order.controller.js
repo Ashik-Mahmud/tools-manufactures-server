@@ -9,10 +9,9 @@ const saveOrderData = async(req, res) => {
     const decodedID = req.decoded.uid;
     if(decodedID === userId){
         const orderData = req.body;
-        const productName = req.body?.productInfo?.productName;
-                      
+        const productName = req.body?.productInfo?.productName;       
         const isHas = await orderCollection.findOne({"productInfo.productName": productName, "author.uid": userId})
-        if(isHas){
+        if(isHas){   
             return res.send({success: false, message: 'Already ordered this product.'})
         }
         const result = await orderCollection.insertOne(orderData);
