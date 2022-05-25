@@ -31,6 +31,12 @@ const getBlogs = async (req, res) => {
     }
 }
 
+const getAllBlogs = async (req, res) => {
+    await client.connect();
 
+    const query = {};
+    const result = await blogCollection.find(query).toArray();
+    res.send({success:true, result})
+}
 
-module.exports = {createBlog, getBlogs}
+module.exports = {createBlog, getBlogs,getAllBlogs}
