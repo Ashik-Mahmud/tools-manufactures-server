@@ -1,6 +1,7 @@
 const { ObjectId } = require("mongodb");
 const client = require("../Connection/connection");
 const blogCollection = client.db("tools-manufactures").collection("blogs");
+const commentCollection = client.db("tools-manufactures").collection("comments");
 
 const createBlog = async (req, res) => {
     await client.connect();
@@ -17,6 +18,22 @@ const createBlog = async (req, res) => {
         res.status(403).send({success: false, message: "Forbidden request"})
     }    
 }
+
+
+const createComment = async (req, res) => {
+    const userId = req.query.uid;
+    const decodedID = req.decoded.uid;
+    if(userId === decodedID){
+        const data = req.body;
+        const result = await commentCollection.insertOne(data);
+        if(result.acknowledged){
+            res.send({success: true, message:"Comment created successfully"})
+        }
+    }else{
+        res.status(403).send({success: false, message: "Forbidden request"})
+    }
+}
+
 
 const getBlogs = async (req, res) => {
     await client.connect();
@@ -91,4 +108,20 @@ const getSearchBlog = async (req, res) => {
     res.send({success: true, result: searchedResult})
 }
 
-module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog, getSearchBlog}
+
+const increaseViews = async (req, res) =>{
+    await client.connect();
+    const postId = req.body.id;
+    const query = {_id: ObjectId(postId)}
+    const updateDoc = {
+        $inc: {views: 1}
+    }
+    const result = await blogCollection.updateOne(query, updateDoc);
+    if(result.acknowledged){
+        res.send({success: true, message:"increased"})
+    }    
+}
+
+
+
+module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog, getSearchBlog, increaseViews, createComment}
