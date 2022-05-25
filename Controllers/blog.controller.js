@@ -17,4 +17,20 @@ const createBlog = async (req, res) => {
     }    
 }
 
-module.exports = {createBlog}
+const getBlogs = async (req, res) => {
+    await client.connect();
+
+    const userId = req.query.uid;
+    const decodedID = req.decoded.uid;
+    if(userId === decodedID) {
+        const query = {"author.uid": userId};
+        const result = await blogCollection.find(query).toArray();
+        res.send({success:true, result})
+    }else{
+        res.status(403).send({success: false, message:"forbidden request"})
+    }
+}
+
+
+
+module.exports = {createBlog, getBlogs}
