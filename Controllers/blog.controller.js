@@ -146,9 +146,9 @@ const increaseViews = async (req, res) =>{
 
 const increaseComment = async (req, res) =>{
     await client.connect();
-    const postId = req.query.uid;
+    const id = req.query.postId;
     const data = req.body;
-    const query = {_id: ObjectId(postId)}
+    const query = {_id: ObjectId(id)}
     const updateDoc = {
         $inc: data
     }
