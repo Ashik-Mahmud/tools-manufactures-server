@@ -129,6 +129,18 @@ const increaseViews = async (req, res) =>{
     }    
 }
 
+const increaseComment = async (req, res) =>{
+    await client.connect();
+    const postId = req.query.uid;
+    const data = req.body;
+    const query = {_id: ObjectId(postId)}
+    const updateDoc = {
+        $inc: data
+    }
+    const result = await blogCollection.updateOne(query, updateDoc);
+    if(result.acknowledged){
+        res.send({success: true, message: "increased comment."})
+    }
+}
 
-
-module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog, getSearchBlog, increaseViews, createComment, getComments}
+module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog, getSearchBlog, increaseViews, createComment, getComments, increaseComment}
