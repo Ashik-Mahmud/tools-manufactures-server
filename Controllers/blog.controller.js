@@ -34,6 +34,13 @@ const createComment = async (req, res) => {
     }
 }
 
+const getComments = async (req, res) =>{
+    await client.connect();
+    const id = req.query.postId;
+    const result = await commentCollection.find({postId: id}).toArray();
+    res.send({success: true, result})
+}
+
 
 const getBlogs = async (req, res) => {
     await client.connect();
@@ -124,4 +131,4 @@ const increaseViews = async (req, res) =>{
 
 
 
-module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog, getSearchBlog, increaseViews, createComment}
+module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog, getSearchBlog, increaseViews, createComment, getComments}
