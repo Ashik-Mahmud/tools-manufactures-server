@@ -41,6 +41,21 @@ const getComments = async (req, res) =>{
     res.send({success: true, result})
 }
 
+const deleteComment = async (req, res) => {
+    const id = req.query.commentId;
+    const userId = req.query.uid;
+    const decodedID = req.decoded.uid;
+    if(userId===decodedID){
+        const query = {_id: ObjectId(id)}
+        const result = await commentCollection.deleteOne(query);
+        if(result.acknowledged){
+            res.send({success: true, message: "Comment deleted successfully"})
+        }
+    }else{
+        res.status(403).send({success: false, message: "Forbidden request"})
+    }                                                             
+}
+
 
 const getBlogs = async (req, res) => {
     await client.connect();
@@ -143,4 +158,4 @@ const increaseComment = async (req, res) =>{
     }
 }
 
-module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog, getSearchBlog, increaseViews, createComment, getComments, increaseComment}
+module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog, getSearchBlog, increaseViews, createComment, getComments, increaseComment, deleteComment}
