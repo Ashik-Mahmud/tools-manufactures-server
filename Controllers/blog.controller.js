@@ -42,6 +42,8 @@ const getAllBlogs = async (req, res) => {
 
 
 const updateBlog = async (req, res) => {
+    await client.connect();
+
     const userId = req.query.uid;
     const decodedID = req.decoded.uid;
     const data = req.body;
@@ -63,6 +65,8 @@ const updateBlog = async (req, res) => {
 
 
 const deleteBlog = async (req, res) => {
+    await client.connect();
+
     const userId = req.query.uid;
     const deleteId = req.query.deletedId;
     const decodedID = req.decoded.uid;
@@ -79,4 +83,12 @@ const deleteBlog = async (req, res) => {
 
 
 
-module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog}
+const getSearchBlog = async (req, res) => {
+    await client.connect();
+    const searchText = req.query.q.toLowerCase();
+    const result = await blogCollection.find({}).toArray();
+    const searchedResult = result.filter(blogs => blogs.title.toLowerCase().includes(searchText));
+    res.send({success: true, result: searchedResult})
+}
+
+module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog, getSearchBlog}
