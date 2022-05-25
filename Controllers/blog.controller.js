@@ -39,4 +39,26 @@ const getAllBlogs = async (req, res) => {
     res.send({success:true, result})
 }
 
-module.exports = {createBlog, getBlogs,getAllBlogs}
+
+const updateBlog = async (req, res) => {
+    const userId = req.query.uid;
+    const decodedID = req.decoded.uid;
+    const data = req.body;
+    if(userId === decodedID) {
+        const query = {"author.uid": userId};
+        const updateDoc = {
+            $set: data,
+        };
+        const result = await blogCollection.updateOne(query, updateDoc)
+        if(result.acknowledged){
+            res.send({success:true, message: "Updated blog successfully done."})
+        }
+    }else{
+        res.status(403).send({success: false, message:"forbidden request"})
+    }
+    
+}
+
+
+
+module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog}
