@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const client = require("../Connection/connection");
 const blogCollection = client.db("tools-manufactures").collection("blogs");
 
@@ -61,4 +62,21 @@ const updateBlog = async (req, res) => {
 
 
 
-module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog}
+const deleteBlog = async (req, res) => {
+    const userId = req.query.uid;
+    const deleteId = req.query.deletedId;
+    const decodedID = req.decoded.uid;
+    if(userId === decodedID) {
+        const query = {_id: ObjectId(deleteId)}
+        const result = await blogCollection.deleteOne(query);
+            if(result.acknowledged){
+                res.send({success: true, message:'Blog deleted successfully done.'})
+            }
+    }else{
+        res.status(403).send({success: false, message:"forbidden request"})
+    }
+}
+
+
+
+module.exports = {createBlog, getBlogs,getAllBlogs, updateBlog, deleteBlog}
