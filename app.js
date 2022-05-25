@@ -13,6 +13,7 @@ const reviewRouter = require("./Routes/review.route.js")
 const productsRouter = require("./Routes/product.route.js");
 const orderRouter = require("./Routes/order.route.js")
 const paymentRouter = require("./Routes/payment.route.js")
+const blogRouter = require("./Routes/blog.route.js")
 // middleware 
 app.use(cors());
 app.use(express.json())
@@ -44,6 +45,9 @@ app.use('/orders', orderRouter)
 /* payment route */
 app.use('/payment', paymentRouter)
 
+
+/* new blog router */
+app.use('/blogs', blogRouter)
 
 
  /* testing api  */
