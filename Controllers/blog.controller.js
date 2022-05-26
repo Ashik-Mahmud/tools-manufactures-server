@@ -85,9 +85,10 @@ const updateBlog = async (req, res) => {
 
     const userId = req.query.uid;
     const decodedID = req.decoded.uid;
+    const id = req.query.editId;
     const data = req.body;
     if(userId === decodedID) {
-        const query = {"author.uid": userId};
+        const query = {_id: ObjectId(id)};
         const updateDoc = {
             $set: data,
         };
