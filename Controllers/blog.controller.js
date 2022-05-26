@@ -88,11 +88,12 @@ const updateBlog = async (req, res) => {
     const id = req.query.editId;
     const data = req.body;
     if(userId === decodedID) {
+        const options = {upsert: true}
         const query = {_id: ObjectId(id)};
         const updateDoc = {
             $set: data,
         };
-        const result = await blogCollection.updateOne(query, updateDoc)
+        const result = await blogCollection.updateOne(query, updateDoc, options)
         if(result.acknowledged){
             res.send({success:true, message: "Updated blog successfully done."})
         }
